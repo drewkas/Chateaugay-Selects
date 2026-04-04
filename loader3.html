@@ -38,7 +38,7 @@
 
   let rows = [];
 
-  fetch("https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/data.csv")
+  fetch("https://raw.githubusercontent.com/drewkas/Chateaugay-Selects/refs/heads/master/data.csv")
     .then(response => response.text())
     .then(text => {
       rows = text.trim().split("\n").map(line => line.split(","));
