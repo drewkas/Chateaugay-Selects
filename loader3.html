@@ -13,31 +13,26 @@
 
 <h2>Random Line Picker</h2>
 <p>
-  1. Choose a CSV file from your computer.<br>
-  2. Click "Pick Random Line" to see 3 options.<br>
-  3. Click one of the options to add it to the list.
+  Click "Pick Random Line" to see 3 options.  
+  Then click one of the options to add it to the list.
 </p>
 
-<input type="file" id="fileInput" accept=".csv">
-<br>
 <button id="pickBtn" disabled>Pick Random Line</button>
 
-<!-- New: where the 3 choices will appear -->
+<!-- Where the 3 choices will appear -->
 <div id="choices" style="margin-top:20px;"></div>
 
-<!-- Existing: where the chosen lines will accumulate -->
+<!-- Where chosen lines accumulate -->
 <div id="output"></div>
 
 <script>
   let rows = [];
 
-  const pickBtn = document.getElementById("pickBtn");
-  const output = document.getElementById("output");
-  const choicesDiv = document.getElementById("choices");
+  // TODO: Replace this URL with your actual raw GitHub CSV URL
+  const csvUrl = "https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/data.csv";
 
-  let rows = [];
-
-  fetch("https://raw.githubusercontent.com/drewkas/Chateaugay-Selects/refs/heads/master/data.csv")
+  // Load CSV from GitHub
+  fetch(csvUrl)
     .then(response => response.text())
     .then(text => {
       rows = text.trim().split("\n").map(line => line.split(","));
@@ -51,7 +46,11 @@
       console.error(err);
     });
 
-  // Only ONE click handler for pickBtn
+  const pickBtn = document.getElementById("pickBtn");
+  const choicesDiv = document.getElementById("choices");
+  const output = document.getElementById("output");
+
+  // Main button: show 3 random choices
   pickBtn.addEventListener("click", () => {
     if (rows.length === 0) {
       output.textContent = "No data loaded.";
@@ -61,7 +60,7 @@
     // Clear previous choices
     choicesDiv.innerHTML = "<strong>Choose one of the three options:</strong><br><br>";
 
-    // Pick 3 random distinct rows
+    // Pick 3 distinct random rows
     const indices = new Set();
     while (indices.size < 3 && indices.size < rows.length) {
       indices.add(Math.floor(Math.random() * rows.length));
@@ -77,13 +76,13 @@
       btn.style.display = "block";
       btn.style.margin = "6px 0";
 
-      // When user clicks an option → append it to the output list
+      // When user chooses one → append it to the output list
       btn.addEventListener("click", () => {
         const line = document.createElement("div");
         line.innerHTML = `<strong>Row ${idx + 1}:</strong> ${row.join(" | ")}`;
         output.appendChild(line);
 
-        // Clear the choices after selection
+        // Clear choices after selection
         choicesDiv.innerHTML = "";
       });
 
