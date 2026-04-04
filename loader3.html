@@ -36,28 +36,21 @@
   const output = document.getElementById("output");
   const choicesDiv = document.getElementById("choices");
 
-  fileInput.addEventListener("change", () => {
-    const file = fileInput.files[0];
-    if (!file) return;
+  let rows = [];
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target.result;
-      rows = text
-        .trim()
-        .split("\n")
-        .map(line => line.split(","));
-
-      if (rows.length > 0) {
-        pickBtn.disabled = false;
-        output.textContent = `Loaded ${rows.length} rows. Click "Pick Random Line" to begin.`;
-      } else {
-        pickBtn.disabled = true;
-        output.textContent = "No rows found in file.";
-      }
-    };
-    reader.readAsText(file);
-  });
+  fetch("https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/data.csv")
+    .then(response => response.text())
+    .then(text => {
+      rows = text.trim().split("\n").map(line => line.split(","));
+      document.getElementById("pickBtn").disabled = false;
+      document.getElementById("output").textContent =
+        `Loaded ${rows.length} rows from GitHub.`;
+    })
+    .catch(err => {
+      document.getElementById("output").textContent =
+        "Error loading CSV from GitHub.";
+      console.error(err);
+    });
 
   // Only ONE click handler for pickBtn
   pickBtn.addEventListener("click", () => {
