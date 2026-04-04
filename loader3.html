@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Random Line Picker</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #output { margin-top: 20px; font-size: 1.1em; white-space: pre-wrap; }
+    button { padding: 8px 14px; font-size: 1em; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>Random Line Picker</h2>
+<p>
+  1. Choose a CSV file from your computer.<br>
+  2. Click "Pick Random Line" to see 3 options.<br>
+  3. Click one of the options to add it to the list.
+</p>
+
+<input type="file" id="fileInput" accept=".csv">
+<br>
+<button id="pickBtn" disabled>Pick Random Line</button>
+
+<!-- New: where the 3 choices will appear -->
+<div id="choices" style="margin-top:20px;"></div>
+
+<!-- Existing: where the chosen lines will accumulate -->
+<div id="output"></div>
+
+<script>
+  let rows = [];
+
+  const fileInput = document.getElementById("fileInput");
+  const pickBtn = document.getElementById("pickBtn");
+  const output = document.getElementById("output");
+  const choicesDiv = document.getElementById("choices");
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target.result;
+      rows = text
+        .trim()
+        .split("\n")
+        .map(line => line.split(","));
+
+      if (rows.length > 0) {
+        pickBtn.disabled = false;
+        output.textContent = `Loaded ${rows.length} rows. Click "Pick Random Line" to begin.`;
+      } else {
+        pickBtn.disabled = true;
+        output.textContent = "No rows found in file.";
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  // Only ONE click handler for pickBtn
+  pickBtn.addEventListener("click", () => {
+    if (rows.length === 0) {
+      output.textContent = "No data loaded.";
+      return;
+    }
+
+    // Clear previous choices
+    choicesDiv.innerHTML = "<strong>Choose one of the three options:</strong><br><br>";
+
+    // Pick 3 random distinct rows
+    const indices = new Set();
+    while (indices.size < 3 && indices.size < rows.length) {
+      indices.add(Math.floor(Math.random() * rows.length));
+    }
+
+    const choiceIndices = Array.from(indices);
+
+    choiceIndices.forEach((idx, i) => {
+      const row = rows[idx];
+
+      const btn = document.createElement("button");
+      btn.textContent = `Option ${i + 1}: ${row.join(" | ")}`;
+      btn.style.display = "block";
+      btn.style.margin = "6px 0";
+
+      // When user clicks an option → append it to the output list
+      btn.addEventListener("click", () => {
+        const line = document.createElement("div");
+        line.innerHTML = `<strong>Row ${idx + 1}:</strong> ${row.join(" | ")}`;
+        output.appendChild(line);
+
+        // Clear the choices after selection
+        choicesDiv.innerHTML = "";
+      });
+
+      choicesDiv.appendChild(btn);
+    });
+  });
+</script>
+
+</body>
+</html>
