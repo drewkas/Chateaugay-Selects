@@ -79,7 +79,7 @@
       // When user chooses one → append it to the output list
       btn.addEventListener("click", () => {
         const line = document.createElement("div");
-        line.innerHTML = `<strong>Row ${idx + 1}:</strong> ${row.join(" | ")}`;
+        line.innerHTML = `<strong>Objective ${idx + 1}:</strong> ${row.join(" | ")}`;
         output.appendChild(line);
 
         // Clear choices after selection
