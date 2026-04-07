@@ -1,21 +1,21 @@
-Artifact Escape,4
-Briefcase Escape,4
-Evidence to News,2
-Evidence to Authorities,2
-X-Secret to Authorities,2
-X-Secret to News,2
-Artifact does NOT Escape,2
-Briefcase does NOT Escape,2
-X-Secret does NOT Escape,2
-Evidence does NOT Escape,2
-# Humans Escape,1 per
-# Robots Escape,2 per
-5 - # Humans Escape,5 - #
-3 - # Robots Escape (0 if all escape),3 - #
-Project X Released,1
-Project X NOT Released,3
-AM Detonates Onboard,3
-AM does NOT Detonate Onboard,1
-# Humans Down,1 per
-# Robots Down,1 per
-Contamination does NOT Escape,2
+Artifact Escape,4 pts
+Briefcase Escape,4 pts
+Evidence to News,2 pts
+Evidence to Authorities,2 pts
+X-Secret to Authorities,2 pts
+X-Secret to News,2 pts
+Artifact does NOT Escape,2 pts
+Briefcase does NOT Escape,2 pts
+X-Secret does NOT Escape,2 pts
+Evidence does NOT Escape,2 pts
+# Humans Escape,1 pt per
+# Robots Escape,2 pt per
+5 - # Humans Escape,5 pts - #
+3 - # Robots Escape (0 if all escape),3 pts - #
+Project X Released,1 pt
+Project X NOT Released,3 pts
+AM Detonates Onboard,3 pts
+AM does NOT Detonate Onboard,1 pt
+# Humans Down,1 pt per
+# Robots Down,1 pt per
+Contamination does NOT Escape,2 pts
